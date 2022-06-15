@@ -1,0 +1,10 @@
+name: Testing-AMQTT-DBConfig
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - jsonschema
+  - paho-mqtt
+  - poetry
+  - pip:
+    - amqtt

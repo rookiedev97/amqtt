@@ -36,10 +36,8 @@ default_config = {
     },
     "sys_interval": 10,
     "auth": {
-        "allow-anonymous": True,
-        "password-file": os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), "passwd"
-        ),
+        "allow-anonymous": False,
+        "password-file": "password.txt",
         "plugins": ["auth_file", "auth_anonymous"],
     },
     "topic-check": {"enabled": False},

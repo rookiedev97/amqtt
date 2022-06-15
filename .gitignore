@@ -107,3 +107,4 @@ tests/plugins/test.db
 
 # pycharm
 .idea/
+password_file.txt
