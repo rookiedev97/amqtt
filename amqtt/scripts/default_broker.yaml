@@ -4,10 +4,7 @@ listeners:
     bind: 0.0.0.0:1883
 sys_interval: 20
 auth:
-  allow-anonymous: false
-  password-file: password_file.txt
-plugins:
-  - auth_file
-  - auth_anonymous
+  plugins: ["auth_anonymous","auth_db"]
+  allow-anonymous: False
 topic-check:
   enabled: False

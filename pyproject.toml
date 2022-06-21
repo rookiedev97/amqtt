@@ -63,6 +63,7 @@ amqtt_sub = 'amqtt.scripts.sub_script:main'
 "topic_taboo" = "amqtt.plugins.topic_checking:TopicTabooPlugin"
 "topic_acl" = "amqtt.plugins.topic_checking:TopicAccessControlListPlugin"
 "broker_sys" = "amqtt.plugins.sys.broker:BrokerSysPlugin"
+"auth_db" = "amqtt.plugins.authentication:DBAuthPlugin"
 
 
 [tool.poetry.plugins."amqtt.client.plugins"]

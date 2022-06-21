@@ -2,6 +2,7 @@
 #
 # See the file license.txt for copying permission.
 import logging
+import os
 from passlib.apps import custom_app_context as pwd_context
 
 
@@ -99,6 +100,39 @@ class FileAuthPlugin(BaseAuthPlugin):
         if authenticated:
             session = kwargs.get("session", None)
             if session.username:
+                hash = self._users.get(session.username, None)
+                if not hash:
+                    authenticated = False
+                    self.context.logger.debug(
+                        "No hash found for user '%s'" % session.username
+                    )
+                else:
+                    authenticated = pwd_context.verify(session.password, hash)
+            else:
+                return None
+        return authenticated
+
+
+class DBAuthPlugin(BaseAuthPlugin):
+    def __init__(self, context):
+        super().__init__(context)
+
+        # test_password is must be hashed
+        # format for dictionary
+        # {"fake name":"password hash"}
+        test_name = os.environ.get("Test_USER")
+        test_password = os.environ.get("Test_PW")
+        temp_dict = {}
+        temp_dict[test_name] = test_password
+        self._users = temp_dict
+        
+    async def authenticate(self, *args, **kwargs):
+        authenticated = super().authenticate(*args, **kwargs)
+        if authenticated:
+            session = kwargs.get("session", None)
+            if session.username:
+                print(session.username)
+                print(self._users)
                 hash = self._users.get(session.username, None)
                 if not hash:
                     authenticated = False
