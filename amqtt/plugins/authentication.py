@@ -4,6 +4,8 @@
 import logging
 import os
 from passlib.apps import custom_app_context as pwd_context
+import requests
+import json
 
 
 class BaseAuthPlugin:
@@ -141,6 +143,29 @@ class DBAuthPlugin(BaseAuthPlugin):
                     )
                 else:
                     authenticated = pwd_context.verify(session.password, hash)
+            else:
+                return None
+        return authenticated
+
+
+
+class BackendAuthPlugin(BaseAuthPlugin):
+    def __init__(self, context):
+        super().__init__(context)
+        
+    async def authenticate(self, *args, **kwargs):
+        authenticated = super().authenticate(*args, **kwargs)
+        if authenticated:
+            session = kwargs.get("session", None)
+            if session.username:
+                temp_dict = {}
+                temp_dict["username"] = session.username
+                temp_dict["password"] = session.password
+                response = requests.post(os.environ.get("Backend_Api_Endpoint"), data = temp_dict)
+                if response.json()==True:
+                    authenticated = True
+                else:
+                    authenticated = False
             else:
                 return None
         return authenticated

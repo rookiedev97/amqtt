@@ -26,6 +26,7 @@ passlib = "^1.7.0"
 docopt = "^0.6.0"
 PyYAML = ">=5.4.0,<7.0"
 coveralls = {version = "^3.0.1", optional = true}
+requests = "^2.13.0"
 
 
 [tool.poetry.extras]
@@ -64,6 +65,7 @@ amqtt_sub = 'amqtt.scripts.sub_script:main'
 "topic_acl" = "amqtt.plugins.topic_checking:TopicAccessControlListPlugin"
 "broker_sys" = "amqtt.plugins.sys.broker:BrokerSysPlugin"
 "auth_db" = "amqtt.plugins.authentication:DBAuthPlugin"
+"auth_backend" = "amqtt.plugins.authentication:BackendAuthPlugin"
 
 
 [tool.poetry.plugins."amqtt.client.plugins"]

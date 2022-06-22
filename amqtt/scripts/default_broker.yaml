@@ -4,7 +4,7 @@ listeners:
     bind: 0.0.0.0:1883
 sys_interval: 20
 auth:
-  plugins: ["auth_anonymous","auth_db"]
+  plugins: ["auth_anonymous","auth_backend"]
   allow-anonymous: False
 topic-check:
   enabled: False

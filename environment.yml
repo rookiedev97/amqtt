@@ -6,5 +6,6 @@ dependencies:
   - jsonschema
   - paho-mqtt
   - poetry
+  - requests
   - pip:
     - amqtt
