@@ -6,6 +6,7 @@ import os
 from passlib.apps import custom_app_context as pwd_context
 import requests
 import json
+from cryptography.fernet import Fernet
 
 
 class BaseAuthPlugin:
@@ -158,9 +159,19 @@ class BackendAuthPlugin(BaseAuthPlugin):
         if authenticated:
             session = kwargs.get("session", None)
             if session.username:
+                random_string = str(os.environ.get('BROKER_ENCRYPT_KEY'))
+                key = random_string.encode('UTF-8')
+                fernet = Fernet(key)
+                if session.username == None: 
+                    session.username = "No user"
+                if session.password == None:
+                    session.password = "No password"
+
+                encrypted_name = fernet.encrypt(session.username.encode())
+                encrypted_pwd = fernet.encrypt(session.password.encode())
                 temp_dict = {}
-                temp_dict["username"] = session.username
-                temp_dict["password"] = session.password
+                temp_dict["username"] = encrypted_name
+                temp_dict["password"] = encrypted_pwd
                 response = requests.post(os.environ.get("Backend_Api_Endpoint"), data = temp_dict)
                 if response.json()==True:
                     authenticated = True
